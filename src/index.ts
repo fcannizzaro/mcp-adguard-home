@@ -10,7 +10,7 @@ const server = new McpServer({
 	version: "1.0.0",
 });
 
-server.tool("list_rewrite_dns_records", "List all DNS records", async () => {
+server.tool("list_rewrite_dns_records", "List all DNS rewrite records (custom local DNS entries)", async () => {
 	const records = await Api.rewrite.list();
 	return {
 		content: [
@@ -26,7 +26,7 @@ server.tool("list_rewrite_dns_records", "List all DNS records", async () => {
 
 server.tool(
 	"add_rewrite_dns_record",
-	"Add a DNS record using the host and ip address",
+	"Add a DNS rewrite record mapping a domain to an IP address",
 	{
 		domain: z.string(),
 		ip: z
@@ -45,7 +45,7 @@ server.tool(
 
 server.tool(
 	"remove_rewrite_dns_record",
-	"Remove a DNS record using the domain and ip address",
+	"Remove a DNS rewrite record by domain and IP address",
 	{
 		domain: z.string(),
 		ip: z.string(),
@@ -62,7 +62,7 @@ server.tool(
 
 server.tool(
 	"list_dns_filtering_rules",
-	"List all DNS allowed or blocked rules",
+	"List all custom DNS filtering rules (blocked or allowed domains)",
 	async () => {
 		const rules = await Api.rules.list();
 		return {
@@ -76,7 +76,7 @@ server.tool(
 
 server.tool(
 	"manage_dns_filtering_rules",
-	"Block or allow a DNS filtering record rules",
+	"Block or allow domains using DNS filtering rules",
 	{
 		domains: z.array(z.string()),
 		allowed: z.boolean(),
@@ -98,7 +98,7 @@ server.tool(
 
 server.tool(
 	"remove_rdns_filtering_rules",
-	"Remove a DNS filtering record rules",
+	"Remove custom DNS filtering rules for the given domains",
 	{
 		domains: z.array(z.string()),
 	},
@@ -114,6 +114,62 @@ server.tool(
 		};
 	},
 );
+
+server.tool("list_filter_lists", "List all configured filter lists with their status and rule count", async () => {
+	const filters = await Api.filters.list();
+	return {
+		content: [
+			{
+				type: "text",
+				text: filters
+					.map(
+						(f) =>
+							`[${f.id}] ${f.name} — ${f.enabled ? "enabled" : "disabled"} — ${f.rules_count} rules\n  URL: ${f.url}`,
+					)
+					.join("\n"),
+			},
+		],
+	};
+});
+
+server.tool(
+	"toggle_filter_list",
+	"Enable or disable a filter list by its ID (use list_filter_lists to get IDs)",
+	{
+		id: z.number().describe("The numeric ID of the filter list"),
+		enabled: z.boolean().describe("true to enable, false to disable"),
+	},
+	async ({ id, enabled }) => {
+		try {
+			await Api.filters.toggle(id, enabled);
+			return {
+				content: [
+					{
+						type: "text",
+						text: `Filter list ${id} ${enabled ? "enabled" : "disabled"} successfully`,
+					},
+				],
+			};
+		} catch (e) {
+			return {
+				content: [{ type: "text", text: `Error: ${(e as Error).message}` }],
+				isError: true,
+			};
+		}
+	},
+);
+
+server.tool("refresh_filter_lists", "Force an update of all filter lists from their source URLs", async () => {
+	const result = await Api.filters.refresh();
+	return {
+		content: [
+			{
+				type: "text",
+				text: `Filter lists refreshed. Updated: ${result.updated}`,
+			},
+		],
+	};
+});
 
 // Start receiving messages on stdin and sending messages on stdout
 const transport = new StdioServerTransport();
