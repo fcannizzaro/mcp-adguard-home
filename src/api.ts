@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { DnsRecords, Filtering, type Rule } from "./schema";
+import { DnsRecords, FilterLists, Filtering, type FilterList, type Rule } from "./schema";
 
 export const parsed = z
 	.object({
@@ -15,8 +15,6 @@ if (!parsed.success) {
 }
 
 const env = parsed.data;
-
-const regex = /(@@)?\|\|(.+)\^\$.+/;
 
 const Authorization = Buffer.from(
 	`${env.ADGUARD_USERNAME}:${env.ADGUARD_PASSWORD}`,
@@ -85,5 +83,31 @@ export const Api = {
 				domain,
 				answer,
 			}),
+	},
+	filters: {
+		list: async () => {
+			const res = await api("filtering/status");
+			return FilterLists.parse(await res.json());
+		},
+		toggle: async (id: number, enabled: boolean) => {
+			const filters = await Api.filters.list();
+			const filter = filters.find((f) => f.id === id);
+			if (!filter) {
+				throw new Error(`Filter with id ${id} not found`);
+			}
+			return api("filtering/set_url", {
+				url: filter.url,
+				whitelist: false,
+				data: {
+					url: filter.url,
+					name: filter.name,
+					enabled,
+				},
+			});
+		},
+		refresh: async () => {
+			const res = await api("filtering/refresh", { whitelist: false });
+			return res.json() as Promise<{ updated: number }>;
+		},
 	},
 };
