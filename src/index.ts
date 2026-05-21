@@ -10,19 +10,23 @@ const server = new McpServer({
 	version: "1.0.0",
 });
 
-server.tool("list_rewrite_dns_records", "List all DNS rewrite records (custom local DNS entries)", async () => {
-	const records = await Api.rewrite.list();
-	return {
-		content: [
-			{
-				type: "text",
-				text: records
-					.map((record) => `${record.domain} -> ${record.ip}`)
-					.join("\n"),
-			},
-		],
-	};
-});
+server.tool(
+	"list_rewrite_dns_records",
+	"List all DNS rewrite records (custom local DNS entries)",
+	async () => {
+		const records = await Api.rewrite.list();
+		return {
+			content: [
+				{
+					type: "text",
+					text: records
+						.map((record) => `${record.domain} -> ${record.ip}`)
+						.join("\n"),
+				},
+			],
+		};
+	},
+);
 
 server.tool(
 	"add_rewrite_dns_record",
@@ -115,22 +119,26 @@ server.tool(
 	},
 );
 
-server.tool("list_filter_lists", "List all configured filter lists with their status and rule count", async () => {
-	const filters = await Api.filters.list();
-	return {
-		content: [
-			{
-				type: "text",
-				text: filters
-					.map(
-						(f) =>
-							`[${f.id}] ${f.name} — ${f.enabled ? "enabled" : "disabled"} — ${f.rules_count} rules\n  URL: ${f.url}`,
-					)
-					.join("\n"),
-			},
-		],
-	};
-});
+server.tool(
+	"list_filter_lists",
+	"List all configured filter lists with their status and rule count",
+	async () => {
+		const filters = await Api.filters.list();
+		return {
+			content: [
+				{
+					type: "text",
+					text: filters
+						.map(
+							(f) =>
+								`[${f.id}] ${f.name} — ${f.enabled ? "enabled" : "disabled"} — ${f.rules_count} rules\n  URL: ${f.url}`,
+						)
+						.join("\n"),
+				},
+			],
+		};
+	},
+);
 
 server.tool(
 	"toggle_filter_list",
@@ -159,17 +167,21 @@ server.tool(
 	},
 );
 
-server.tool("refresh_filter_lists", "Force an update of all filter lists from their source URLs", async () => {
-	const result = await Api.filters.refresh();
-	return {
-		content: [
-			{
-				type: "text",
-				text: `Filter lists refreshed. Updated: ${result.updated}`,
-			},
-		],
-	};
-});
+server.tool(
+	"refresh_filter_lists",
+	"Force an update of all filter lists from their source URLs",
+	async () => {
+		const result = await Api.filters.refresh();
+		return {
+			content: [
+				{
+					type: "text",
+					text: `Filter lists refreshed. Updated: ${result.updated}`,
+				},
+			],
+		};
+	},
+);
 
 // Start receiving messages on stdin and sending messages on stdout
 const transport = new StdioServerTransport();

@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { DnsRecords, FilterLists, Filtering, type FilterList, type Rule } from "./schema";
+import { DnsRecords, Filtering, FilterLists, type Rule } from "./schema";
 
 export const parsed = z
 	.object({
