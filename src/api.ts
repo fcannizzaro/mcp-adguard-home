@@ -1,29 +1,13 @@
 import { z } from "zod";
+import { loadConfig } from "./config";
 import { DnsRecords, Filtering, FilterLists, type Rule } from "./schema";
-
-const EnvSchema = z.object({
-	ADGUARD_USERNAME: z.string(),
-	ADGUARD_PASSWORD: z.string(),
-	ADGUARD_URL: z.string(),
-});
-
-const getEnv = () => {
-	const result = EnvSchema.safeParse(process.env);
-
-	if (!result.success) {
-		console.error("Invalid environment variables", result.error.format());
-		throw new Error("Invalid environment variables");
-	}
-
-	return result.data;
-};
 
 const serializeRule = (rule: Rule) => {
 	return `${rule.allowed ? "@@" : ""}||${rule.domain}^$important`;
 };
 
 const api = async (path: string, body?: Record<string, unknown>) => {
-	const env = getEnv();
+	const env = await loadConfig();
 	const Authorization = Buffer.from(`${env.ADGUARD_USERNAME}:${env.ADGUARD_PASSWORD}`).toString(
 		"base64",
 	);

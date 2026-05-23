@@ -13,7 +13,15 @@ A [Model Context Protocol](https://modelcontextprotocol.io/introduction) (MCP) s
 npm i -g @fcannizzaro/mcp-adguard-home
 ```
 
-## ⚙️ Environment Variables
+## ⚙️ Credentials
+
+For the CLI, run:
+
+```bash
+adguard-cli login
+```
+
+This prompts for your AdGuard Home URL, username, and password, then saves them to `~/.config/mcp-adguard-home/config.json`. Saved credentials are loaded automatically on start. If no saved credentials are available, the package falls back to these environment variables:
 
 | Variable           | Description                                                        |
 | ------------------ | ------------------------------------------------------------------ |
@@ -119,6 +127,7 @@ claude mcp add adguard-home \
 The package also installs a regular CLI for agents or scripts that do not use MCP:
 
 ```bash
+adguard-cli login
 adguard-cli list_rewrite_dns_records
 adguard-cli add_rewrite_dns_record --domain example.test --ip 192.168.1.10
 adguard-cli manage_dns_filtering_rules --domains ads.example --allowed false

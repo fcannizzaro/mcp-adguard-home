@@ -1,6 +1,6 @@
 {
 	"name": "@fcannizzaro/mcp-adguard-home",
-	"version": "1.0.5",
+	"version": "1.0.6",
 	"description": "A Model Context Protocol server implementation for AdGuard Home that enables AI agents to query and manage DNS records, filtering rules and more",
 	"keywords": [
 		"adguard-home",
