@@ -1,6 +1,6 @@
 # 🛡️ AdGuard Home MCP
 
-A [Model Context Protocol](https://modelcontextprotocol.io/introduction) (MCP) server implementation for [AdGuard Home](https://adguard.com/en/adguard-home/overview.html). Easily query and manage DNS records, filtering rules, and more via AI agents.
+A [Model Context Protocol](https://modelcontextprotocol.io/introduction) (MCP) server for [AdGuard Home](https://adguard.com/en/adguard-home/overview.html). Manage DNS rewrite records, filtering rules, and filter lists via AI agents.
 
 [![npm version](https://badge.fury.io/js/@fcannizzaro%2Fmcp-adguard-home.svg)](https://www.npmjs.com/package/@fcannizzaro/mcp-adguard-home)
 [![CI: Publish Package](https://github.com/fcannizzaro/mcp-adguard-home/actions/workflows/publish-package.yaml/badge.svg)](https://github.com/fcannizzaro/mcp-adguard-home/actions/workflows/publish-package.yaml)
@@ -11,33 +11,136 @@ A [Model Context Protocol](https://modelcontextprotocol.io/introduction) (MCP) s
 npm i -g @fcannizzaro/mcp-adguard-home
 ```
 
-## ⚙️ Configuration
+## ⚙️ Environment Variables
 
-Set the following environment variables:
+| Variable | Description |
+|----------|-------------|
+| `ADGUARD_URL` | Base URL of your AdGuard Home instance (e.g. `http://192.168.1.1`) |
+| `ADGUARD_USERNAME` | AdGuard Home username |
+| `ADGUARD_PASSWORD` | AdGuard Home password |
 
-```dotenv
-ADGUARD_USERNAME=
-ADGUARD_PASSWORD=
-ADGUARD_URL=
+## 🚀 Configuration
+
+### Claude Desktop
+
+Edit `~/Library/Application Support/Claude/claude_desktop_config.json` (macOS) or `%APPDATA%\Claude\claude_desktop_config.json` (Windows):
+
+```json
+{
+  "mcpServers": {
+    "adguard-home": {
+      "command": "npx",
+      "args": ["-y", "@fcannizzaro/mcp-adguard-home"],
+      "env": {
+        "ADGUARD_URL": "http://192.168.1.1",
+        "ADGUARD_USERNAME": "admin",
+        "ADGUARD_PASSWORD": "your-password"
+      }
+    }
+  }
+}
 ```
 
-## 🚀 Usage
+### Cursor
 
-Configure your MCP client to use `mcp-adguard-home` (it's a stdio server).
+Edit `.cursor/mcp.json` in your project root (or `~/.cursor/mcp.json` globally):
+
+```json
+{
+  "mcpServers": {
+    "adguard-home": {
+      "command": "npx",
+      "args": ["-y", "@fcannizzaro/mcp-adguard-home"],
+      "env": {
+        "ADGUARD_URL": "http://192.168.1.1",
+        "ADGUARD_USERNAME": "admin",
+        "ADGUARD_PASSWORD": "your-password"
+      }
+    }
+  }
+}
+```
+
+### VS Code
+
+Edit `.vscode/mcp.json` in your project root:
+
+```json
+{
+  "servers": {
+    "adguard-home": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "@fcannizzaro/mcp-adguard-home"],
+      "env": {
+        "ADGUARD_URL": "http://192.168.1.1",
+        "ADGUARD_USERNAME": "admin",
+        "ADGUARD_PASSWORD": "your-password"
+      }
+    }
+  }
+}
+```
+
+### Windsurf
+
+Edit `~/.codeium/windsurf/mcp_config.json`:
+
+```json
+{
+  "mcpServers": {
+    "adguard-home": {
+      "command": "npx",
+      "args": ["-y", "@fcannizzaro/mcp-adguard-home"],
+      "env": {
+        "ADGUARD_URL": "http://192.168.1.1",
+        "ADGUARD_USERNAME": "admin",
+        "ADGUARD_PASSWORD": "your-password"
+      }
+    }
+  }
+}
+```
+
+### Claude Code CLI
+
+```bash
+claude mcp add adguard-home \
+  -e ADGUARD_URL=http://192.168.1.1 \
+  -e ADGUARD_USERNAME=admin \
+  -e ADGUARD_PASSWORD=your-password \
+  -- npx -y @fcannizzaro/mcp-adguard-home
+```
+
+## 🧰 Available Tools
+
+### DNS Rewrite Records
+
+| Tool | Description | Parameters |
+|------|-------------|------------|
+| `list_rewrite_dns_records` | List all DNS rewrite records | — |
+| `add_rewrite_dns_record` | Add a DNS rewrite record | `domain: string`, `ip: string` |
+| `remove_rewrite_dns_record` | Remove a DNS rewrite record | `domain: string`, `ip: string` |
+
+### DNS Filtering Rules
+
+| Tool | Description | Parameters |
+|------|-------------|------------|
+| `list_dns_filtering_rules` | List all custom DNS filtering rules | — |
+| `manage_dns_filtering_rules` | Block or allow domains | `domains: string[]`, `allowed: boolean` |
+| `remove_rdns_filtering_rules` | Remove custom filtering rules | `domains: string[]` |
+
+### Filter Lists
+
+| Tool | Description | Parameters |
+|------|-------------|------------|
+| `list_filter_lists` | List all configured filter lists | — |
+| `toggle_filter_list` | Enable or disable a filter list | `id: number`, `enabled: boolean` |
+| `refresh_filter_lists` | Force update of all filter lists | — |
+
+## Demo
 
 ![AdGuard Home](/.media/adguard-home.gif)
-
-## 🧰 Rewrite DNS Tools
-
-- 📋 **List records** (`list_rewrite_dns_records`)
-- ➕ **Add record** (`add_rewrite_dns_record`)
-- ❌ **Delete record** (`remove_rewrite_dns_record`)
-
-## 🔧 DNS Filtering Tools
-
-- 📝 **List rules** (`list_dns_filtering_rules`)
-- 🔧 **Add/Update rules** (`manage_dns_filtering_rules`)
-- ❌ **Delete rules** (`remove_dns_filtering_rules`)
 
 ## 📄 License
 
