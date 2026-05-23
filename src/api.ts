@@ -1,27 +1,21 @@
 import { z } from "zod";
 import { DnsRecords, Filtering, FilterLists, type Rule } from "./schema";
 
-export const parsed = z
-	.object({
-		ADGUARD_USERNAME: z.string(),
-		ADGUARD_PASSWORD: z.string(),
-		ADGUARD_URL: z.string(),
-	})
-	.safeParse(process.env);
+const EnvSchema = z.object({
+	ADGUARD_USERNAME: z.string(),
+	ADGUARD_PASSWORD: z.string(),
+	ADGUARD_URL: z.string(),
+});
 
-if (!parsed.success) {
-	console.error("Invalid environment variables", parsed.error.format());
-	throw new Error("Invalid environment variables");
-}
+const getEnv = () => {
+	const result = EnvSchema.safeParse(process.env);
 
-const env = parsed.data;
+	if (!result.success) {
+		console.error("Invalid environment variables", result.error.format());
+		throw new Error("Invalid environment variables");
+	}
 
-const Authorization = Buffer.from(`${env.ADGUARD_USERNAME}:${env.ADGUARD_PASSWORD}`).toString(
-	"base64",
-);
-
-const headers = {
-	Authorization: `Basic ${Authorization}`,
+	return result.data;
 };
 
 const serializeRule = (rule: Rule) => {
@@ -29,10 +23,15 @@ const serializeRule = (rule: Rule) => {
 };
 
 const api = async (path: string, body?: Record<string, unknown>) => {
+	const env = getEnv();
+	const Authorization = Buffer.from(`${env.ADGUARD_USERNAME}:${env.ADGUARD_PASSWORD}`).toString(
+		"base64",
+	);
+
 	const res = await fetch(`${env.ADGUARD_URL}/control/${path}`, {
 		method: body ? "POST" : "GET",
 		headers: {
-			...headers,
+			Authorization: `Basic ${Authorization}`,
 			"Content-Type": "application/json",
 		},
 		body: body ? JSON.stringify(body) : undefined,

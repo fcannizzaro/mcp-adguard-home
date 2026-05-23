@@ -116,6 +116,20 @@ claude mcp add adguard-home \
 
 ## 🧰 Available Tools
 
+The package also installs a regular CLI for agents or scripts that do not use MCP:
+
+```bash
+adguard-cli list_rewrite_dns_records
+adguard-cli add_rewrite_dns_record --domain example.test --ip 192.168.1.10
+adguard-cli manage_dns_filtering_rules --domains ads.example --allowed false
+```
+
+CLI arguments can also be passed as a JSON object:
+
+```bash
+adguard-cli add_rewrite_dns_record '{"domain":"example.test","ip":"192.168.1.10"}'
+```
+
 ### DNS Rewrite Records
 
 | Tool                        | Description                  | Parameters                     |
