@@ -16,9 +16,9 @@ if (!parsed.success) {
 
 const env = parsed.data;
 
-const Authorization = Buffer.from(
-	`${env.ADGUARD_USERNAME}:${env.ADGUARD_PASSWORD}`,
-).toString("base64");
+const Authorization = Buffer.from(`${env.ADGUARD_USERNAME}:${env.ADGUARD_PASSWORD}`).toString(
+	"base64",
+);
 
 const headers = {
 	Authorization: `Basic ${Authorization}`,
@@ -28,8 +28,8 @@ const serializeRule = (rule: Rule) => {
 	return `${rule.allowed ? "@@" : ""}||${rule.domain}^$important`;
 };
 
-const api = (path: string, body?: Record<string, unknown>) =>
-	fetch(`${env.ADGUARD_URL}/control/${path}`, {
+const api = async (path: string, body?: Record<string, unknown>) => {
+	const res = await fetch(`${env.ADGUARD_URL}/control/${path}`, {
 		method: body ? "POST" : "GET",
 		headers: {
 			...headers,
@@ -37,6 +37,13 @@ const api = (path: string, body?: Record<string, unknown>) =>
 		},
 		body: body ? JSON.stringify(body) : undefined,
 	});
+
+	if (!res.ok) {
+		throw new Error(`AdGuard API error ${res.status}: ${await res.text()}`);
+	}
+
+	return res;
+};
 
 export const Api = {
 	rules: {
@@ -47,7 +54,7 @@ export const Api = {
 		update: async (domains: string[], allowed: boolean) => {
 			const rules = await Api.rules.list();
 			for (const domain of domains) {
-				const rule = rules.find((rule) => rule.domain === domain);
+				const rule = rules.find((item) => item.domain === domain);
 				if (rule) {
 					rule.allowed = allowed;
 				} else {
@@ -62,9 +69,7 @@ export const Api = {
 		remove: async (domains: string[]) => {
 			const prev = await Api.rules.list();
 			return api("filtering/set_rules", {
-				rules: prev
-					.filter((rule) => !domains.includes(rule.domain))
-					.map(serializeRule),
+				rules: prev.filter((rule) => !domains.includes(rule.domain)).map(serializeRule),
 			});
 		},
 	},
@@ -107,7 +112,7 @@ export const Api = {
 		},
 		refresh: async () => {
 			const res = await api("filtering/refresh", { whitelist: false });
-			return res.json() as Promise<{ updated: number }>;
+			return z.object({ updated: z.number() }).parse(await res.json());
 		},
 	},
 };

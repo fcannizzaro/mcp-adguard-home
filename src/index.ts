@@ -10,34 +10,36 @@ const server = new McpServer({
 	version: "1.0.0",
 });
 
-server.tool(
+server.registerTool(
 	"list_rewrite_dns_records",
-	"List all DNS rewrite records (custom local DNS entries)",
+	{
+		description: "List all DNS rewrite records (custom local DNS entries)",
+	},
 	async () => {
 		const records = await Api.rewrite.list();
 		return {
 			content: [
 				{
 					type: "text",
-					text: records
-						.map((record) => `${record.domain} -> ${record.ip}`)
-						.join("\n"),
+					text: records.map((record) => `${record.domain} -> ${record.ip}`).join("\n"),
 				},
 			],
 		};
 	},
 );
 
-server.tool(
+server.registerTool(
 	"add_rewrite_dns_record",
-	"Add a DNS rewrite record mapping a domain to an IP address",
 	{
-		domain: z.string(),
-		ip: z
-			.string()
-			.describe(
-				"if the ip is missing get the most common ip in the list of dns record before use this tool",
-			),
+		description: "Add a DNS rewrite record mapping a domain to an IP address",
+		inputSchema: z.object({
+			domain: z.string(),
+			ip: z
+				.string()
+				.describe(
+					"if the ip is missing get the most common ip in the list of dns record before use this tool",
+				),
+		}),
 	},
 	async ({ domain, ip }) => {
 		await Api.rewrite.add(domain, ip);
@@ -47,26 +49,28 @@ server.tool(
 	},
 );
 
-server.tool(
+server.registerTool(
 	"remove_rewrite_dns_record",
-	"Remove a DNS rewrite record by domain and IP address",
 	{
-		domain: z.string(),
-		ip: z.string(),
+		description: "Remove a DNS rewrite record by domain and IP address",
+		inputSchema: z.object({
+			domain: z.string(),
+			ip: z.string(),
+		}),
 	},
 	async ({ domain, ip }) => {
 		await Api.rewrite.remove(domain, ip);
 		return {
-			content: [
-				{ type: "text", text: `Removed DNS entry: ${domain} -> ${ip}` },
-			],
+			content: [{ type: "text", text: `Removed DNS entry: ${domain} -> ${ip}` }],
 		};
 	},
 );
 
-server.tool(
+server.registerTool(
 	"list_dns_filtering_rules",
-	"List all custom DNS filtering rules (blocked or allowed domains)",
+	{
+		description: "List all custom DNS filtering rules (blocked or allowed domains)",
+	},
 	async () => {
 		const rules = await Api.rules.list();
 		return {
@@ -78,12 +82,14 @@ server.tool(
 	},
 );
 
-server.tool(
+server.registerTool(
 	"manage_dns_filtering_rules",
-	"Block or allow domains using DNS filtering rules",
 	{
-		domains: z.array(z.string()),
-		allowed: z.boolean(),
+		description: "Block or allow domains using DNS filtering rules",
+		inputSchema: z.object({
+			domains: z.array(z.string()),
+			allowed: z.boolean(),
+		}),
 	},
 	async ({ domains, allowed }) => {
 		await Api.rules.update(domains, allowed);
@@ -100,11 +106,13 @@ server.tool(
 	},
 );
 
-server.tool(
+server.registerTool(
 	"remove_rdns_filtering_rules",
-	"Remove custom DNS filtering rules for the given domains",
 	{
-		domains: z.array(z.string()),
+		description: "Remove custom DNS filtering rules for the given domains",
+		inputSchema: z.object({
+			domains: z.array(z.string()),
+		}),
 	},
 	async ({ domains }) => {
 		await Api.rules.remove(domains);
@@ -119,9 +127,11 @@ server.tool(
 	},
 );
 
-server.tool(
+server.registerTool(
 	"list_filter_lists",
-	"List all configured filter lists with their status and rule count",
+	{
+		description: "List all configured filter lists with their status and rule count",
+	},
 	async () => {
 		const filters = await Api.filters.list();
 		return {
@@ -140,12 +150,14 @@ server.tool(
 	},
 );
 
-server.tool(
+server.registerTool(
 	"toggle_filter_list",
-	"Enable or disable a filter list by its ID (use list_filter_lists to get IDs)",
 	{
-		id: z.number().describe("The numeric ID of the filter list"),
-		enabled: z.boolean().describe("true to enable, false to disable"),
+		description: "Enable or disable a filter list by its ID (use list_filter_lists to get IDs)",
+		inputSchema: z.object({
+			id: z.number().describe("The numeric ID of the filter list"),
+			enabled: z.boolean().describe("true to enable, false to disable"),
+		}),
 	},
 	async ({ id, enabled }) => {
 		try {
@@ -159,17 +171,20 @@ server.tool(
 				],
 			};
 		} catch (e) {
+			const message = e instanceof Error ? e.message : String(e);
 			return {
-				content: [{ type: "text", text: `Error: ${(e as Error).message}` }],
+				content: [{ type: "text", text: `Error: ${message}` }],
 				isError: true,
 			};
 		}
 	},
 );
 
-server.tool(
+server.registerTool(
 	"refresh_filter_lists",
-	"Force an update of all filter lists from their source URLs",
+	{
+		description: "Force an update of all filter lists from their source URLs",
+	},
 	async () => {
 		const result = await Api.filters.refresh();
 		return {

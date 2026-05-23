@@ -1,0 +1,176 @@
+<svg width="860" height="320" viewBox="50 118 860 320" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+<title id="title">LLM agents interacting with AdGuard Home through MCP</title>
+<desc id="desc">Animated SVG showing multiple AI agents sending requests through an MCP hub into AdGuard Home.</desc>
+<defs>
+<linearGradient id="bg" x1="96" y1="64" x2="864" y2="476" gradientUnits="userSpaceOnUse">
+<stop stop-color="#0D1117"/>
+<stop offset="1" stop-color="#161B22"/>
+</linearGradient>
+<linearGradient id="panel" x1="180" y1="96" x2="780" y2="444" gradientUnits="userSpaceOnUse">
+<stop stop-color="#161B22" stop-opacity="0.98"/>
+<stop offset="1" stop-color="#0F141B" stop-opacity="0.98"/>
+</linearGradient>
+<linearGradient id="agentGlow" x1="0" y1="0" x2="1" y2="1">
+<stop stop-color="#84CCFF"/>
+<stop offset="1" stop-color="#5EEAD4"/>
+</linearGradient>
+<linearGradient id="mcpGlow" x1="395" y1="205" x2="565" y2="335" gradientUnits="userSpaceOnUse">
+<stop stop-color="#8B5CF6"/>
+<stop offset="1" stop-color="#38BDF8"/>
+</linearGradient>
+<linearGradient id="shield" x1="683" y1="128" x2="820" y2="302" gradientUnits="userSpaceOnUse">
+<stop stop-color="#66E25C"/>
+<stop offset="1" stop-color="#2DBE60"/>
+</linearGradient>
+<filter id="softGlow" x="-40%" y="-40%" width="180%" height="180%">
+<feGaussianBlur stdDeviation="10" result="blur"/>
+<feMerge>
+<feMergeNode in="blur"/>
+<feMergeNode in="SourceGraphic"/>
+ </feMerge>
+</filter>
+<filter id="cardShadow" x="-20%" y="-20%" width="140%" height="140%">
+<feDropShadow dx="0" dy="16" stdDeviation="18" flood-color="#020617" flood-opacity="0.4"/>
+</filter>
+<path id="flowTop" d="M242 168C294 168 330 168 374 210C390 225 404 238 430 248C467 262 507 261 549 261C608 261 655 242 699 206"/>
+<path id="flowMid" d="M242 270H710"/>
+<path id="flowBot" d="M242 372C294 372 330 372 374 330C390 315 404 302 430 292C467 278 507 279 549 279C608 279 655 298 699 334"/>
+</defs>
+
+<g opacity="0.14">
+<path d="M96 108H864" stroke="#30363D" stroke-dasharray="6 12"/>
+<path d="M96 432H864" stroke="#30363D" stroke-dasharray="6 12"/>
+<path d="M180 84V456" stroke="#30363D" stroke-dasharray="6 12"/>
+<path d="M480 84V456" stroke="#30363D" stroke-dasharray="6 12"/>
+<path d="M780 84V456" stroke="#30363D" stroke-dasharray="6 12"/>
+</g>
+
+<g>
+<path d="M242 168C294 168 330 168 374 210C390 225 404 238 430 248C467 262 507 261 549 261C608 261 655 242 699 206" stroke="#38BDF8" stroke-opacity="0.35" stroke-width="4" stroke-linecap="round" stroke-dasharray="10 16"/>
+<path d="M242 270H710" stroke="#A855F7" stroke-opacity="0.35" stroke-width="4" stroke-linecap="round" stroke-dasharray="10 16"/>
+<path d="M242 372C294 372 330 372 374 330C390 315 404 302 430 292C467 278 507 279 549 279C608 279 655 298 699 334" stroke="#22D3EE" stroke-opacity="0.35" stroke-width="4" stroke-linecap="round" stroke-dasharray="10 16"/>
+
+<g filter="url(#softGlow)">
+<circle r="7" fill="#7DD3FC">
+<animateMotion dur="4.8s" repeatCount="indefinite" rotate="auto">
+<mpath href="#flowTop"/>
+</animateMotion>
+<animate attributeName="opacity" values="0;1;1;0" dur="4.8s" repeatCount="indefinite"/>
+</circle>
+<circle r="7" fill="#C084FC">
+<animateMotion dur="4.2s" begin="0.5s" repeatCount="indefinite" rotate="auto">
+<mpath href="#flowMid"/>
+</animateMotion>
+<animate attributeName="opacity" values="0;1;1;0" dur="4.2s" begin="0.5s" repeatCount="indefinite"/>
+</circle>
+<circle r="7" fill="#5EEAD4">
+<animateMotion dur="5.1s" begin="0.9s" repeatCount="indefinite" rotate="auto">
+<mpath href="#flowBot"/>
+</animateMotion>
+<animate attributeName="opacity" values="0;1;1;0" dur="5.1s" begin="0.9s" repeatCount="indefinite"/>
+</circle>
+<circle r="4.5" fill="#E2E8F0">
+<animateMotion dur="3.6s" begin="1.1s" repeatCount="indefinite">
+<mpath href="#flowTop"/>
+</animateMotion>
+<animate attributeName="opacity" values="0;0.9;0.9;0" dur="3.6s" begin="1.1s" repeatCount="indefinite"/>
+</circle>
+<circle r="4.5" fill="#E2E8F0">
+<animateMotion dur="3.2s" begin="0.3s" repeatCount="indefinite">
+<mpath href="#flowBot"/>
+</animateMotion>
+<animate attributeName="opacity" values="0;0.9;0.9;0" dur="3.2s" begin="0.3s" repeatCount="indefinite"/>
+</circle>
+</g>
+</g>
+
+<g filter="url(#cardShadow)">
+<g transform="translate(0 0)">
+<animateTransform attributeName="transform" type="translate" values="0 0; 0 -3; 0 0" dur="4s" repeatCount="indefinite"/>
+<rect x="80" y="144" width="162" height="48" rx="16" fill="#161B22" stroke="#30363D"/>
+<text x="103" y="173" fill="#C9D1D9" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="12" letter-spacing="1.4">AGENT 01</text>
+<path d="M221 158H197C193 158 190 161 190 165V170C190 174 193 177 197 177H215L223 184V177" fill="none" stroke="#38BDF8" stroke-opacity="0.8" stroke-width="2.2" stroke-linejoin="round"/>
+</g>
+
+<g transform="translate(0 0)">
+<animateTransform attributeName="transform" type="translate" values="0 0; 0 4; 0 0" dur="4.6s" begin="0.4s" repeatCount="indefinite"/>
+<rect x="80" y="246" width="162" height="48" rx="16" fill="#161B22" stroke="#30363D"/>
+<text x="103" y="275" fill="#C9D1D9" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="12" letter-spacing="1.4">AGENT 02</text>
+<path d="M221 260H197C193 260 190 263 190 267V272C190 276 193 279 197 279H215L223 286V279" fill="none" stroke="#A855F7" stroke-opacity="0.82" stroke-width="2.2" stroke-linejoin="round"/>
+</g>
+
+<g transform="translate(0 0)">
+<animateTransform attributeName="transform" type="translate" values="0 0; 0 -4; 0 0" dur="5s" begin="0.8s" repeatCount="indefinite"/>
+<rect x="80" y="348" width="162" height="48" rx="16" fill="#161B22" stroke="#30363D"/>
+<text x="103" y="377" fill="#C9D1D9" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="12" letter-spacing="1.4">AGENT 03</text>
+<path d="M221 362H197C193 362 190 365 190 369V374C190 378 193 381 197 381H215L223 388V381" fill="none" stroke="#22D3EE" stroke-opacity="0.82" stroke-width="2.2" stroke-linejoin="round"/>
+</g>
+</g>
+
+<g filter="url(#cardShadow)">
+<rect x="395" y="186" width="170" height="168" rx="26" fill="#161B22" stroke="#30363D"/>
+<rect x="416" y="206" width="128" height="96" rx="18" fill="#0D1117" stroke="#30363D"/>
+<rect x="416" y="206" width="128" height="20" rx="18" fill="#21262D"/>
+<circle cx="432" cy="216" r="4" fill="#8B949E"/>
+<circle cx="445" cy="216" r="4" fill="#8B949E" opacity="0.8"/>
+<circle cx="458" cy="216" r="4" fill="#8B949E" opacity="0.6"/>
+<rect x="433" y="242" width="94" height="28" rx="14" fill="#1F6FEB" fill-opacity="0.14" stroke="#58A6FF" stroke-opacity="0.45"/>
+<text x="480" y="261" text-anchor="middle" fill="#58A6FF" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="16" font-weight="700" letter-spacing="1.6">MCP</text>
+<path d="M434 285H458" stroke="#58A6FF" stroke-width="3" stroke-linecap="round"/>
+<path d="M468 285H492" stroke="#A371F7" stroke-width="3" stroke-linecap="round"/>
+<path d="M502 285H526" stroke="#3FB950" stroke-width="3" stroke-linecap="round"/>
+<circle cx="458" cy="285" r="3.5" fill="#58A6FF">
+<animate attributeName="opacity" values="0.35;1;0.35" dur="1.6s" repeatCount="indefinite"/>
+</circle>
+<circle cx="492" cy="285" r="3.5" fill="#A371F7">
+<animate attributeName="opacity" values="0.35;1;0.35" dur="1.6s" begin="0.25s" repeatCount="indefinite"/>
+</circle>
+<circle cx="526" cy="285" r="3.5" fill="#3FB950">
+<animate attributeName="opacity" values="0.35;1;0.35" dur="1.6s" begin="0.5s" repeatCount="indefinite"/>
+</circle>
+<text x="480" y="323" text-anchor="middle" fill="#C9D1D9" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="14" letter-spacing="1.8">REQUEST ROUTER</text>
+<g opacity="0.95">
+<circle cx="440" cy="338" r="4" fill="#58A6FF">
+<animate attributeName="opacity" values="0.25;1;0.25" dur="1.5s" repeatCount="indefinite"/>
+</circle>
+<circle cx="464" cy="338" r="4" fill="#A371F7">
+<animate attributeName="opacity" values="0.25;1;0.25" dur="1.5s" begin="0.18s" repeatCount="indefinite"/>
+</circle>
+<circle cx="488" cy="338" r="4" fill="#3FB950">
+<animate attributeName="opacity" values="0.25;1;0.25" dur="1.5s" begin="0.36s" repeatCount="indefinite"/>
+</circle>
+<circle cx="512" cy="338" r="4" fill="#58A6FF">
+<animate attributeName="opacity" values="0.25;1;0.25" dur="1.5s" begin="0.54s" repeatCount="indefinite"/>
+</circle>
+</g>
+</g>
+
+<g filter="url(#cardShadow)">
+<rect x="674" y="124" width="206" height="292" rx="28" fill="#161B22" stroke="#30363D"/>
+<text x="706" y="162" fill="#C9D1D9" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="14" letter-spacing="2">ADGUARD HOME</text>
+
+<g transform="translate(0 0)" filter="url(#softGlow)">
+<animateTransform attributeName="transform" type="translate" values="0 0; 0 -5; 0 0" dur="3.8s" repeatCount="indefinite"/>
+<path d="M777 186C746 186 719 195 702 207V253C702 309 734 346 777 364C820 346 852 309 852 253V207C835 195 808 186 777 186Z" fill="url(#shield)"/>
+<path d="M777 213C752 213 730 220 717 228V251C717 297 742 327 777 343C812 327 837 297 837 251V228C824 220 802 213 777 213Z" fill="#F8FAFC" fill-opacity="0.16"/>
+<path d="M739 263L769 293L816 240" stroke="#F8FAFC" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="777" cy="275" r="82" stroke="#4ADE80" stroke-opacity="0.22" stroke-width="2">
+<animate attributeName="r" values="78;88;78" dur="3.8s" repeatCount="indefinite"/>
+<animate attributeName="opacity" values="0.4;0.1;0.4" dur="3.8s" repeatCount="indefinite"/>
+</circle>
+</g>
+
+<rect x="702" y="376" width="150" height="16" rx="8" fill="#21262D"/>
+<rect x="702" y="376" width="108" height="16" rx="8" fill="#4ADE80">
+<animate attributeName="width" values="96;124;110;96" dur="4s" repeatCount="indefinite"/>
+</rect>
+<text x="702" y="407" fill="#86EFAC" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="13">DNS protected</text>
+</g>
+
+<g opacity="0.92">
+<rect x="274" y="144" width="90" height="28" rx="14" fill="#1F2937" stroke="#38BDF8" stroke-opacity="0.35"/>
+<text x="319" y="163" text-anchor="middle" fill="#BAE6FD" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="12">tool calls</text>
+<rect x="571" y="144" width="104" height="28" rx="14" fill="#20162A" stroke="#A855F7" stroke-opacity="0.35"/>
+<text x="623" y="163" text-anchor="middle" fill="#DDD6FE" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="12">API bridge</text>
+</g>
+</svg>
