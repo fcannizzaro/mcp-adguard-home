@@ -2,7 +2,8 @@
 
 A [Model Context Protocol](https://modelcontextprotocol.io/introduction) (MCP) server for [AdGuard Home](https://adguard.com/en/adguard-home/overview.html). Manage DNS rewrite records, filtering rules, and filter lists via AI agents.
 
-![NPM Version](https://img.shields.io/npm/v/%40fcannizzaro%2Fmcp-adguard-home?style=flat&label=npm&labelColor=%233E464F&color=%2331C754&link=https%3A%2F%2Fwww.npmjs.com%2Fpackage%2F%40fcannizzaro%2Fmcp-adguard-home)
+[![NPM Version](https://img.shields.io/npm/v/%40fcannizzaro%2Fmcp-adguard-home?style=flat&label=npm&labelColor=%233E464F&color=%2331C754&link=https%3A%2F%2Fwww.npmjs.com%2Fpackage%2F%40fcannizzaro%2Fmcp-adguard-home)](https://www.npmjs.com/package/@fcannizzaro/mcp-adguard-home)
+
 [![CI: Publish Package](https://github.com/fcannizzaro/mcp-adguard-home/actions/workflows/publish-package.yaml/badge.svg)](https://github.com/fcannizzaro/mcp-adguard-home/actions/workflows/publish-package.yaml)
 
 ![LLM agents interacting with AdGuard Home through MCP](./.media/agents-adguard-home.svg)
